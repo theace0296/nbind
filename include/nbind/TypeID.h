@@ -27,13 +27,15 @@ typedef const void *TYPEID;
 
 // Type ID generator.
 
+struct SpecType {
+	const StructureType placeholderFlag;
+};
+
 template<typename ArgType>
 struct Typer {
 	// Reserve a single byte of memory to uniquely represent a type.
 	// The address of this byte is a unique type-specific constant.
-	static const struct SpecType {
-		const StructureType placeholderFlag;
-	} spec;
+	static const SpecType spec;
 
 	static NBIND_CONSTEXPR TYPEID makeID() {
 		return(&spec.placeholderFlag);
@@ -42,8 +44,8 @@ struct Typer {
 
 // Linkage for placeholder bytes representing types.
 template<typename ArgType>
-const typename Typer<ArgType>::SpecType Typer<ArgType>::spec = {
-	StructureType :: none
+const SpecType Typer<ArgType>::spec = {
+	StructureType::none
 };
 
 // Parameterized types
@@ -65,7 +67,7 @@ struct Typer<Type> {                            \
                                                 \
 template<typename ArgType>                      \
 const ParamStructure Typer<Type>::spec = {      \
-	StructureType :: flag,                      \
+	StructureType::flag,                        \
 	Typer<ArgType>::makeID()                    \
 }
 

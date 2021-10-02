@@ -8,6 +8,7 @@
 #if !defined(NBIND_DUPLICATE_POINTERS)
 
 #include <unordered_map>
+#include <stdexcept>
 
 namespace nbind {
 
@@ -136,7 +137,9 @@ protected:
 		// create a new wrapper again.
 
 		ref->SetWeak(ref, weakCallback, Nan::WeakCallbackType::kParameter);
-		ref->MarkIndependent();
+		#if NODE_MAJOR_VERSION < 10
+			ref->MarkIndependent();
+		#endif
 	}
 
 	void removeInstance() {

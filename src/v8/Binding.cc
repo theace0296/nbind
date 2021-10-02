@@ -258,6 +258,7 @@ static void initModule(Local<Object> exports) {
 		Local<v8::Function> jsFunction = Nan::GetFunction(functionTemplate).ToLocalChecked();
 
 		exports->Set(
+			Nan::GetCurrentContext(),
 			Nan::New<String>(func.getName()).ToLocalChecked(),
 			jsFunction
 		);
@@ -362,6 +363,7 @@ static void initModule(Local<Object> exports) {
 		Overloader::setPtrWrapper(bindClass->wrapperConstructorNum, bindClass->wrapPtr);
 
 		exports->Set(
+			Nan::GetCurrentContext(),
 			Nan::New<String>(bindClass->getName()).ToLocalChecked(),
 			jsConstructor
 		);

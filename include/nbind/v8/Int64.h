@@ -12,7 +12,7 @@ static ArgType int64FromWire(WireType arg, void(init)(const Nan::FunctionCallbac
 	Nan::HandleScope();
 
 	auto target = Nan::To<v8::Object>(arg).ToLocalChecked();
-	auto fromJS = target->Get(Nan::New<v8::String>("fromJS").ToLocalChecked());
+	auto fromJS = target->Get(Nan::GetCurrentContext(), Nan::New<v8::String>("fromJS").ToLocalChecked()).ToLocalChecked();
 
 	if(!fromJS->IsFunction()) throw(std::runtime_error("Type mismatch"));
 
